@@ -1,0 +1,34 @@
+name: ${project.name}
+version: ${project.version}
+description: ${project.description}
+main: com.github.hexosse.WorldRestorer
+author: hexosse
+website: www.github.hexosse
+
+depend: []
+softdepend: [Multiverse-Core]
+
+permissions:
+  WorldRestorer.save: {description: Save a world, default: false}
+  WorldRestorer.load: {description: Load a world, default: false}
+  WorldRestorer.delete: {description: delete a saved world, default: false}
+  WorldRestorer.list: {description: List all saved worlds, default: false}
+  WorldRestorer.kickplayers: {description: Kick all the players from the world, default: false}
+  WorldRestorer.removeplayers: {description: Remove all the players from the world, default: false}
+  WorldRestorer.respawnplayers: {description: Respawn all the players previously removed from the world, default: false}
+  WorldRestorer.config: {description: Edit the config of a saved world, default: false}
+  WorldRestorer.admin:
+    description: Admin permission
+    children:
+        WorldRestorer.save: true
+        WorldRestorer.load: true
+        WorldRestorer.delete: true
+        WorldRestorer.list: true
+        WorldRestorer.kickplayers: true
+        WorldRestorer.removeplayers: true
+        WorldRestorer.respawnplayers: true
+        WorldRestorer.config: true
+  WorldRestorer.*:
+    description: OP permission
+    children:
+        WorldRestorer.admin: true
