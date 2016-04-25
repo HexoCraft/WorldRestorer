@@ -25,7 +25,7 @@
     <name>WorldRestorer</name>
     <version>2.3.6</version>
     <packaging>jar</packaging>
-    <description>Mettre içi la description du plugin</description>
+    <description>Save, load, reset any worlds. Change spawn, add commands and more options per world.Fully integrated with Multiverse and fully configurable.</description>
     <url>https://github.com/hexosse/WorldRestorer</url>
 
 
