@@ -1,4 +1,4 @@
-# WorldRestorer
+# WorldRestorer [![Build Status](https://drone.io/github.com/hexosse/WorldRestorer/status.png)](https://drone.io/github.com/hexosse/WorldRestorer/latest) [![Dependency Status](https://www.versioneye.com/user/projects/571e8a6bfcd19a00415b27d7/badge.svg?style=flat)](https://www.versioneye.com/user/projects/571e8a6bfcd19a00415b27d7)
 Save, load, reset any worlds. Change spawn, add commands and more options per world.
 Fully integrated with Multiverse and fully configurable.
 
@@ -18,7 +18,7 @@ And also after loading the world :
 
 ####Commands:
 * /WorldRestorer help : Display WorldRestorer help
-* /WorldRestorer save \<world> [save as] : Save a world
+* /WorldRestorer save \<world> [save as] : Save a world (Save you wolrds with the /save-all command to unsure that your last modifications will be saved)
 * /WorldRestorer load \<saved world> [load as] : Load a world
 * /WorldRestorer reset \<world> : reset a world
 * /WorldRestorer delete \<saved world> : Delete a saved world
