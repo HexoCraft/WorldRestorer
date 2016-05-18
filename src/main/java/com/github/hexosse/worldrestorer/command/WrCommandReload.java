@@ -63,8 +63,7 @@ public class WrCommandReload extends CommandReload<WorldRestorer>
 
                 plugin.config.reloadConfig();
 
-                if(!plugin.messages.GetTemplateName().equalsIgnoreCase(plugin.config.messages))
-                    plugin.messages = new Messages(plugin, plugin.getDataFolder(), plugin.config.messages);
+                plugin.messages = new Messages(plugin, plugin.getDataFolder(), plugin.config.messages);
                 plugin.messages.reloadConfig();
 
 				// Log
