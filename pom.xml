@@ -26,7 +26,7 @@
     <version>2.3.7</version>
     <packaging>jar</packaging>
     <description>Save, load, reset any worlds. Change spawn, add commands and more options per world.Fully integrated with Multiverse and fully configurable.</description>
-    <url>https://github.com/hexosse/WorldRestorer</url>
+    <url>https://github.com/HexoCube/WorldRestorer</url>
 
 
     <!-- License -->
@@ -41,14 +41,14 @@
 
     <!-- scm -->
     <scm>
-        <url>http://github.com/hexosse/WorldRestorer</url>
-        <connection>scm:git:git://github.com/hexosse/WorldRestorer.git</connection>
-        <developerConnection>scm:git:git@github.com:hexosse/WorldRestorer.git</developerConnection>
+        <url>http://github.com/HexoCube/WorldRestorer</url>
+        <connection>scm:git:git://github.com/HexoCube/WorldRestorer.git</connection>
+        <developerConnection>scm:git:git@github.com:HexoCube/WorldRestorer.git</developerConnection>
     </scm>
 
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/hexosse/WorldRestorer/issues</url>
+        <url>https://github.com/HexoCube/WorldRestorer/issues</url>
     </issueManagement>
 
 
