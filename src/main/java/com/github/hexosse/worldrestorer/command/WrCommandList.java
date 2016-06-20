@@ -23,6 +23,7 @@ import com.github.hexosse.pluginframework.pluginapi.PluginCommand;
 import com.github.hexosse.pluginframework.pluginapi.command.CommandInfo;
 import com.github.hexosse.pluginframework.pluginapi.message.Message;
 import com.github.hexosse.pluginframework.pluginapi.message.MessageTarget;
+import com.google.common.collect.Lists;
 import org.bukkit.Bukkit;
 
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ public class WrCommandList extends PluginCommand<WorldRestorer>
     public WrCommandList(WorldRestorer plugin)
     {
         super("list", plugin);
+		this.setAliases(Lists.newArrayList("l"));
         this.setDescription(plugin.messages.cList);
         this.setPermission(Permissions.LIST.toString());
     }
