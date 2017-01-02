@@ -9,6 +9,7 @@ depend: []
 softdepend: [Multiverse-Core]
 
 permissions:
+  # All permissions
   WorldRestorer.save: {description: Save a world, default: false}
   WorldRestorer.load: {description: Load a world, default: false}
   WorldRestorer.delete: {description: delete a saved world, default: false}
@@ -17,8 +18,10 @@ permissions:
   WorldRestorer.removeplayers: {description: Remove all the players from the world, default: false}
   WorldRestorer.respawnplayers: {description: Respawn all the players previously removed from the world, default: false}
   WorldRestorer.config: {description: Edit the config of a saved world, default: false}
+  # OP permissions
   WorldRestorer.admin:
     description: Admin permission
+    default: op
     children:
         WorldRestorer.save: true
         WorldRestorer.load: true
@@ -28,7 +31,3 @@ permissions:
         WorldRestorer.removeplayers: true
         WorldRestorer.respawnplayers: true
         WorldRestorer.config: true
-  WorldRestorer.*:
-    description: OP permission
-    children:
-        WorldRestorer.admin: true
