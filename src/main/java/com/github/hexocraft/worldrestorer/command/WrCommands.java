@@ -1,7 +1,7 @@
 package com.github.hexocraft.worldrestorer.command;
 
 /*
- * Copyright 2016 hexosse
+ * Copyright 2017 hexosse
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -17,17 +17,22 @@ package com.github.hexocraft.worldrestorer.command;
  */
 
 import com.github.hexocraft.worldrestorer.WorldRestorer;
-import com.github.hexosse.pluginframework.pluginapi.PluginCommand;
-import com.github.hexosse.pluginframework.pluginapi.command.CommandInfo;
+import com.github.hexocraftapi.command.Command;
+import com.github.hexocraftapi.command.CommandInfo;
+import com.github.hexocraftapi.message.Prefix;
 import com.google.common.collect.Lists;
+
+import static com.github.hexocraft.worldrestorer.WorldRestorer.messages;
 
 /**
  * This file is part WorldRestorer
  *
  * @author <b>hexosse</b> (<a href="https://github.comp/hexosse">hexosse on GitHub</a>))
  */
-public class WrCommands extends PluginCommand<WorldRestorer>
+public class WrCommands extends Command<WorldRestorer>
 {
+    public static Prefix prefix = new Prefix(messages.chatPrefix);
+
     /**
      * @param plugin The plugin that this object belong to.
      */

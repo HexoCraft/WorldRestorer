@@ -1,7 +1,7 @@
 package com.github.hexocraft.worldrestorer.command;
 
 /*
- * Copyright 2016 hexosse
+ * Copyright 2017 hexosse
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -19,11 +19,14 @@ package com.github.hexocraft.worldrestorer.command;
 import com.github.hexocraft.worldrestorer.WorldRestorer;
 import com.github.hexocraft.worldrestorer.configuration.Messages;
 import com.github.hexocraft.worldrestorer.configuration.Permissions;
-import com.github.hexosse.pluginframework.pluginapi.command.CommandInfo;
-import com.github.hexosse.pluginframework.pluginapi.command.predifined.CommandReload;
-import com.github.hexosse.pluginframework.pluginapi.message.Message;
+import com.github.hexocraftapi.command.CommandInfo;
+import com.github.hexocraftapi.command.predifined.CommandReload;
+import com.github.hexocraftapi.message.predifined.message.PluginMessage;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import static com.github.hexocraft.worldrestorer.WorldRestorer.*;
 
 /**
  * This file is part of WorldRestorer
@@ -38,7 +41,7 @@ public class WrCommandReload extends CommandReload<WorldRestorer>
     public WrCommandReload(WorldRestorer plugin)
     {
         super(plugin, Permissions.ADMIN.toString());
-        this.setDescription(plugin.messages.cReload);
+        this.setDescription(messages.cReload);
     }
 
     /**
@@ -49,7 +52,7 @@ public class WrCommandReload extends CommandReload<WorldRestorer>
      * @return true if a valid command, otherwise false
      */
     @Override
-    public boolean onCommand(CommandInfo commandInfo)
+    public boolean onCommand(final CommandInfo commandInfo)
     {
         final Player player = commandInfo.getPlayer();
 
@@ -60,20 +63,13 @@ public class WrCommandReload extends CommandReload<WorldRestorer>
             @Override
             public void run()
             {
+                // Reload config file
+                config.load();
+                // Reload message file
+                messages = new Messages(instance, config.messages, true);
 
-                plugin.config.reloadConfig();
-
-                plugin.messages = new Messages(plugin, plugin.getDataFolder(), plugin.config.messages);
-                plugin.messages.reloadConfig();
-
-				// Log
-                pluginLogger.info(plugin.messages.sReload);
-
-				// Message
-				Message message = new Message();
-				message.setPrefix(plugin.messages.chatPrefix);
-				message.add(plugin.messages.sReload);
-				messageManager.send(player, message);
+                // Send message
+                PluginMessage.toSenders(commandInfo.getSenders(),plugin, plugin.messages.sReload, ChatColor.YELLOW);
             }
 
         }.runTask(plugin);

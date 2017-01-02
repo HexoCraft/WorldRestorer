@@ -1,7 +1,7 @@
 package com.github.hexocraft.worldrestorer.command;
 
 /*
- * Copyright 2016 hexosse
+ * Copyright 2017 hexosse
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -21,13 +21,13 @@ import com.github.hexocraft.worldrestorer.WorldRestorerApi;
 import com.github.hexocraft.worldrestorer.command.ArgType.ArgTypeSavedWorld;
 import com.github.hexocraft.worldrestorer.configuration.Permissions;
 import com.github.hexocraft.worldrestorer.configuration.WorldConfig;
-import com.github.hexosse.pluginframework.pluginapi.PluginCommand;
-import com.github.hexosse.pluginframework.pluginapi.command.CommandArgument;
-import com.github.hexosse.pluginframework.pluginapi.command.CommandInfo;
-import com.github.hexosse.pluginframework.pluginapi.command.predifined.CommandHelp;
-import com.github.hexosse.pluginframework.pluginapi.command.type.ArgTypeBoolean;
-import com.github.hexosse.pluginframework.pluginapi.command.type.ArgTypeInteger;
-import com.github.hexosse.pluginframework.pluginapi.command.type.ArgTypeStringList;
+import com.github.hexocraftapi.command.Command;
+import com.github.hexocraftapi.command.CommandArgument;
+import com.github.hexocraftapi.command.CommandInfo;
+import com.github.hexocraftapi.command.predifined.CommandHelp;
+import com.github.hexocraftapi.command.type.ArgTypeBoolean;
+import com.github.hexocraftapi.command.type.ArgTypeInteger;
+import com.github.hexocraftapi.command.type.ArgTypeStringList;
 
 import java.util.List;
 
@@ -36,7 +36,7 @@ import java.util.List;
  *
  * @author <b>hexosse</b> (<a href="https://github.comp/hexosse">hexosse on GitHub</a>))
  */
-public class WrCommandConfigUnload extends PluginCommand<WorldRestorer>
+public class WrCommandConfigUnload extends Command<WorldRestorer>
 {
     /**
      * @param plugin The plugin that this object belong to.
@@ -89,7 +89,7 @@ public class WrCommandConfigUnload extends PluginCommand<WorldRestorer>
 		}
 	}
 
-	public class WrCommandConfigUnloadDelay extends PluginCommand<WorldRestorer>
+	public class WrCommandConfigUnloadDelay extends Command<WorldRestorer>
 	{
 		public WrCommandConfigUnloadDelay(WorldRestorer plugin)
 		{
@@ -122,7 +122,7 @@ public class WrCommandConfigUnload extends PluginCommand<WorldRestorer>
 	}
 
 
-	public class WrCommandConfigUnloadDelayMessage extends PluginCommand<WorldRestorer>
+	public class WrCommandConfigUnloadDelayMessage extends Command<WorldRestorer>
 	{
 		public WrCommandConfigUnloadDelayMessage(WorldRestorer plugin)
 		{
@@ -155,7 +155,7 @@ public class WrCommandConfigUnload extends PluginCommand<WorldRestorer>
 	}
 
 
-	public class WrCommandConfigUnloadRemovePlayers extends PluginCommand<WorldRestorer>
+	public class WrCommandConfigUnloadRemovePlayers extends Command<WorldRestorer>
 	{
 		public WrCommandConfigUnloadRemovePlayers(WorldRestorer plugin)
 		{
@@ -197,7 +197,7 @@ public class WrCommandConfigUnload extends PluginCommand<WorldRestorer>
 	}
 
 
-	public class WrCommandConfigUnloadKickPlayers extends PluginCommand<WorldRestorer>
+	public class WrCommandConfigUnloadKickPlayers extends Command<WorldRestorer>
 	{
 		public WrCommandConfigUnloadKickPlayers(WorldRestorer plugin)
 		{
@@ -239,7 +239,7 @@ public class WrCommandConfigUnload extends PluginCommand<WorldRestorer>
 	}
 
 
-	public class WrCommandConfigUnloadSpawnPlayers extends PluginCommand<WorldRestorer>
+	public class WrCommandConfigUnloadSpawnPlayers extends Command<WorldRestorer>
 	{
 		public WrCommandConfigUnloadSpawnPlayers(WorldRestorer plugin)
 		{
@@ -281,7 +281,7 @@ public class WrCommandConfigUnload extends PluginCommand<WorldRestorer>
 	}
 
 
-	public class WrCommandConfigUnloadSpawnLocation extends PluginCommand<WorldRestorer>
+	public class WrCommandConfigUnloadSpawnLocation extends Command<WorldRestorer>
 	{
 		public WrCommandConfigUnloadSpawnLocation(WorldRestorer plugin)
 		{
@@ -315,7 +315,7 @@ public class WrCommandConfigUnload extends PluginCommand<WorldRestorer>
 	}
 
 
-	public class WrCommandConfigUnloadAddCommand extends PluginCommand<WorldRestorer>
+	public class WrCommandConfigUnloadAddCommand extends Command<WorldRestorer>
 	{
 		public WrCommandConfigUnloadAddCommand(WorldRestorer plugin)
 		{
@@ -348,7 +348,7 @@ public class WrCommandConfigUnload extends PluginCommand<WorldRestorer>
 	}
 
 
-	public class WrCommandConfigUnloadRemoveCommand extends PluginCommand<WorldRestorer>
+	public class WrCommandConfigUnloadRemoveCommand extends Command<WorldRestorer>
 	{
 		public WrCommandConfigUnloadRemoveCommand(WorldRestorer plugin)
 		{
@@ -381,7 +381,7 @@ public class WrCommandConfigUnload extends PluginCommand<WorldRestorer>
 	}
 
 
-	public class WrCommandConfigUnloadRemoveAllCommands extends PluginCommand<WorldRestorer>
+	public class WrCommandConfigUnloadRemoveAllCommands extends Command<WorldRestorer>
 	{
 		public WrCommandConfigUnloadRemoveAllCommands(WorldRestorer plugin)
 		{

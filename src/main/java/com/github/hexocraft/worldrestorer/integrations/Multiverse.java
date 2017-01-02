@@ -1,7 +1,7 @@
 package com.github.hexocraft.worldrestorer.integrations;
 
 /*
- * Copyright 2016 hexosse
+ * Copyright 2017 hexosse
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import com.onarandombox.MultiverseCore.MultiverseCore;
 /**
  * @author <b>hexosse</b> (<a href="https://github.comp/hexosse">hexosse on GitHub</a>))
  */
-public class Multiverse extends Integration<WorldRestorer,MultiverseCore>
+public class Multiverse extends Integration<MultiverseCore>
 {
 	public Multiverse(WorldRestorer plugin)
 	{

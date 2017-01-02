@@ -1,7 +1,7 @@
 package com.github.hexocraft.worldrestorer.command;
 
 /*
- * Copyright 2016 hexosse
+ * Copyright 2017 hexosse
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -20,21 +20,23 @@ import com.github.hexocraft.worldrestorer.WorldRestorer;
 import com.github.hexocraft.worldrestorer.WorldRestorerApi;
 import com.github.hexocraft.worldrestorer.command.ArgType.ArgTypeSavedWorld;
 import com.github.hexocraft.worldrestorer.configuration.Permissions;
-import com.github.hexosse.pluginframework.pluginapi.PluginCommand;
-import com.github.hexosse.pluginframework.pluginapi.command.CommandArgument;
-import com.github.hexosse.pluginframework.pluginapi.command.CommandInfo;
-import com.github.hexosse.pluginframework.pluginapi.message.Message;
-import com.github.hexosse.pluginframework.pluginapi.message.MessageSeverity;
-import com.github.hexosse.pluginframework.pluginapi.message.MessageTarget;
+import com.github.hexocraftapi.command.Command;
+import com.github.hexocraftapi.command.CommandArgument;
+import com.github.hexocraftapi.command.CommandInfo;
+import com.github.hexocraftapi.message.predifined.message.EmptyMessage;
+import com.github.hexocraftapi.message.predifined.message.SimplePrefixedMessage;
+import com.github.hexocraftapi.message.predifined.message.WarningPrefixedMessage;
 import com.google.common.collect.Lists;
-import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+
+import static com.github.hexocraft.worldrestorer.command.WrCommands.prefix;
 
 /**
  * This file is part WorldRestorer
  *
  * @author <b>hexosse</b> (<a href="https://github.comp/hexosse">hexosse on GitHub</a>))
  */
-public class WrCommandDelete extends PluginCommand<WorldRestorer>
+public class WrCommandDelete extends Command<WorldRestorer>
 {
     /**
      * @param plugin The plugin that this object belong to.
@@ -63,22 +65,14 @@ public class WrCommandDelete extends PluginCommand<WorldRestorer>
         // Delete the world
         if(!WorldRestorerApi.deleteWorldSave(getPlugin(), worldName))
         {
-            // Message
-            Message message = new Message(MessageSeverity.ERROR);
-            MessageTarget target = new MessageTarget(Bukkit.getConsoleSender()).add(commandInfo.getSender());
-            message.setPrefix(plugin.messages.chatPrefix);
-            message.add(new Message(plugin.messages.eDelete.replace("{WORLD}",worldName)));
-            messageManager.send(target, message);
-
+            WarningPrefixedMessage.toPlayer(commandInfo.getPlayer(), prefix, plugin.messages.eDelete.replace("{WORLD}",worldName));
             return false;
         }
 
         // Message
-        Message message = new Message();
-        MessageTarget target = new MessageTarget(Bukkit.getConsoleSender()).add(commandInfo.getSender());
-        message.setPrefix(plugin.messages.chatPrefix);
-        message.add(new Message(plugin.messages.sDelete.replace("{WORLD}",worldName)));
-        messageManager.send(target, message);
+        EmptyMessage.toSender(commandInfo.getPlayer());
+        SimplePrefixedMessage titleMessage = new SimplePrefixedMessage(prefix, WorldRestorer.messages.sDelete.replace("{WORLD}",worldName), ChatColor.GREEN);
+        titleMessage.send(commandInfo.getSenders());
 
         return true;
     }

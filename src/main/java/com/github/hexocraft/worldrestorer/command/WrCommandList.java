@@ -1,7 +1,7 @@
 package com.github.hexocraft.worldrestorer.command;
 
 /*
- * Copyright 2016 hexosse
+ * Copyright 2017 hexosse
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -19,12 +19,15 @@ package com.github.hexocraft.worldrestorer.command;
 import com.github.hexocraft.worldrestorer.WorldRestorer;
 import com.github.hexocraft.worldrestorer.WorldRestorerApi;
 import com.github.hexocraft.worldrestorer.configuration.Permissions;
-import com.github.hexosse.pluginframework.pluginapi.PluginCommand;
-import com.github.hexosse.pluginframework.pluginapi.command.CommandInfo;
-import com.github.hexosse.pluginframework.pluginapi.message.Message;
-import com.github.hexosse.pluginframework.pluginapi.message.MessageTarget;
+import com.github.hexocraftapi.command.Command;
+import com.github.hexocraftapi.command.CommandInfo;
+import com.github.hexocraftapi.message.Sentence;
+import com.github.hexocraftapi.message.predifined.line.Title;
+import com.github.hexocraftapi.message.predifined.message.EmptyMessage;
+import com.github.hexocraftapi.message.predifined.message.SimpleMessage;
+import com.github.hexocraftapi.message.predifined.message.TitleMessage;
 import com.google.common.collect.Lists;
-import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
 
@@ -33,7 +36,7 @@ import java.util.ArrayList;
  *
  * @author <b>hexosse</b> (<a href="https://github.comp/hexosse">hexosse on GitHub</a>))
  */
-public class WrCommandList extends PluginCommand<WorldRestorer>
+public class WrCommandList extends Command<WorldRestorer>
 {
     /**
      * @param plugin The plugin that this object belong to.
@@ -57,23 +60,21 @@ public class WrCommandList extends PluginCommand<WorldRestorer>
     public boolean onCommand(CommandInfo commandInfo)
     {
         // List of saved worlds
-        final ArrayList<String> savedWorlds = WorldRestorerApi.listWorlds(getPlugin()
-		);
+        final ArrayList<String> savedWorlds = WorldRestorerApi.listWorlds(getPlugin());
 
-		// Message
-		Message message = new Message();
-		MessageTarget target = new MessageTarget(Bukkit.getConsoleSender()).add(commandInfo.getSender());
-		//message.setPrefix(plugin.messages.chatPrefix);
+	    // Empty
+	    EmptyMessage.toSender(commandInfo.getPlayer());
 
-		if(savedWorlds==null)
-			message.add(new Message(plugin.messages.eList));
-		else
-		{
-			message.add(new Message(plugin.messages.sList));
-			for(String worldName : savedWorlds)
-				message.add(new Message(" - " + worldName));
-		}
-		messageManager.send(target, message);
+	    // Title line
+	    Title title = new Title('-', ChatColor.AQUA, new Sentence(savedWorlds==null ? plugin.messages.eList : plugin.messages.sList, ChatColor.YELLOW));
+	    TitleMessage.toPlayer(commandInfo.getPlayer(), title);
+
+	    //
+	    if(savedWorlds==null) return true;
+
+	    //
+	    for(String worldName : savedWorlds)
+		    SimpleMessage.toPlayer(commandInfo.getPlayer(), " - " + worldName);
 
         return true;
     }

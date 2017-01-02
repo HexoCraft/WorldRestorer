@@ -1,7 +1,7 @@
 package com.github.hexocraft.worldrestorer.configuration;
 
 /*
- * Copyright 2016 hexosse
+ * Copyright 2017 hexosse
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -16,12 +16,16 @@ package com.github.hexocraft.worldrestorer.configuration;
  *    limitations under the License.
  */
 
-import com.github.hexocraft.worldrestorer.WorldRestorer;
-import com.github.hexosse.pluginframework.pluginapi.config.ConfigFile;
+import com.github.hexocraftapi.configuration.Configuration;
+import com.github.hexocraftapi.configuration.annotation.ConfigFooter;
+import com.github.hexocraftapi.configuration.annotation.ConfigHeader;
+import com.github.hexocraftapi.configuration.annotation.ConfigPath;
+import com.github.hexocraftapi.configuration.annotation.ConfigValue;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -32,30 +36,33 @@ import java.util.ArrayList;
  * @author <b>hexosse</b> (<a href="https://github.com/hexosse">hexosse on GitHub</a>).
  */
 
-@ConfigFile.ConfigHeader(comment = {
-        "############################################################",
-        "# | WorldRestorer by hexosse                            | #",
-        "############################################################"
+@ConfigHeader(comment = {
+"# ===--- WorldRestorer -------------------------------------------------------------------------------------------=== #",
+"#                                                                                                                      ",
+"#     Save, load, reset any worlds.                                                                                    ",
+"#     Change spawn, add commands and more options per world.                                                           ",
+"#     Fully integrated with Multiverse and fully configurable.                                                         ",
+"#                                                                                                                      ",
+"# ===------------------------------------------------------------------------------------------ © 2017 Hexosse ---=== #"
 })
-@ConfigFile.ConfigFooter(comment = {
-        " ",
-        " ",
-        "############################################################"
+@ConfigFooter(comment = {
+" ",
+"# ===--- Enjoy -------------------------------------------------------------------------------- © 2017 Hexosse ---=== #"
 })
 
-public class WorldConfig extends ConfigFile<WorldRestorer>
+public class WorldConfig extends Configuration
 {
     /* Plugin */
-    @ConfigComment(path = "world", comment = "Data about the saved world")
-    @ConfigOptions(path = "world.name")					public String name;
-    @ConfigOptions(path = "world.seed")					public long seed;
-    @ConfigOptions(path = "world.environment")			public String environment;
-    @ConfigOptions(path = "world.generator")			public String generator;
-    @ConfigOptions(path = "world.type")					public String type;
-    @ConfigOptions(path = "world.generateStructures")	public boolean generateStructures;
-    @ConfigOptions(path = "world.generatorSettings")	public String generatorSettings;
+    @ConfigPath(path = "world", comment = "Data about the saved world")
+    @ConfigValue(path = "world.name") public               String  name;
+    @ConfigValue(path = "world.seed") public               long    seed;
+    @ConfigValue(path = "world.environment") public        String  environment;
+    @ConfigValue(path = "world.generator") public          String  generator;
+    @ConfigValue(path = "world.type") public               String  type;
+    @ConfigValue(path = "world.generateStructures") public boolean generateStructures;
+    @ConfigValue(path = "world.generatorSettings") public  String  generatorSettings;
 
-	@ConfigComment(
+	@ConfigPath(
 	comment = {"Actions to perform before unloading the world"
 			, " - delay (in seconds) : delay before unloading the world"
 			, " - remove_players : if true players will be respawed to main world"
@@ -66,15 +73,15 @@ public class WorldConfig extends ConfigFile<WorldRestorer>
 			/*, "              You can use the {WORLD} variable which will be replace by the name"
 			, "              of the world that will be loaded."*/}
 	, path = "unload")
-	@ConfigOptions(path = "unload.delay")				public int unloadDelay = 0;
-	@ConfigOptions(path = "unload.delay_message")		public boolean unloadDelayMessage = false;
-	@ConfigOptions(path = "unload.remove_players")		public boolean unloadRemovePlayers = true;
-	@ConfigOptions(path = "unload.kick_players")		public boolean unloadKickPlayers = false;
-	@ConfigOptions(path = "unload.spawn_players")		public boolean unloadSpawnPlayers = false;
-	@ConfigOptions(path = "unload.spawn_location")		public Location unloadSpawnLocation;
-	@ConfigOptions(path = "unload.commands")			public ArrayList<String> unloadCommands = new ArrayList<String>();
+	@ConfigValue(path = "unload.delay")				public int unloadDelay = 0;
+	@ConfigValue(path = "unload.delay_message")		public boolean unloadDelayMessage = false;
+	@ConfigValue(path = "unload.remove_players")	public boolean unloadRemovePlayers = true;
+	@ConfigValue(path = "unload.kick_players")		public boolean unloadKickPlayers = false;
+	@ConfigValue(path = "unload.spawn_players")		public boolean unloadSpawnPlayers = false;
+	@ConfigValue(path = "unload.spawn_location")	public Location unloadSpawnLocation;
+	@ConfigValue(path = "unload.commands")			public ArrayList<String> unloadCommands = new ArrayList<String>();
 
-	@ConfigComment(
+	@ConfigPath(
 	comment = {"Actions to perform after loading the world"
 			, " - respawn : respawn the players in the world after the reload"
 			, " - force_spawn : if true players will be respawed at location specified in spawn_location"
@@ -83,16 +90,25 @@ public class WorldConfig extends ConfigFile<WorldRestorer>
 			/*, "              You can use the {WORLD} variable which will be replace by the name"
 			, "              of the world that will be loaded."*/}
 	, path = "load")
-	@ConfigOptions(path = "load.respawn")				public boolean loadRespawn = false;
-	@ConfigOptions(path = "load.force_spawn")			public boolean loadForceSpawn = false;
-	@ConfigOptions(path = "load.spawn_location")		public Location loadSpawnLocation;
-	@ConfigOptions(path = "load.commands")				public ArrayList<String> loadCommands = new ArrayList<String>();
+	@ConfigValue(path = "load.respawn")				public boolean loadRespawn = false;
+	@ConfigValue(path = "load.force_spawn")			public boolean loadForceSpawn = false;
+	@ConfigValue(path = "load.spawn_location")		public Location loadSpawnLocation;
+	@ConfigValue(path = "load.commands")			public ArrayList<String> loadCommands = new ArrayList<String>();
 
 
-	public WorldConfig(WorldRestorer plugin, File dataFolder, String filename)
-    {
-        super(plugin, new File(dataFolder, filename));
-    }
+	public WorldConfig(JavaPlugin plugin, String fileName, boolean load)
+	{
+		super(plugin, fileName);
+
+		if(load) load();
+	}
+
+	public WorldConfig(JavaPlugin plugin, File dataFolder, String filename, boolean load)
+	{
+		super(plugin, new File(dataFolder, filename));
+
+		if(load) load();
+	}
 
 	public WorldCreator getWorldCreator()
 	{

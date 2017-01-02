@@ -1,4 +1,4 @@
-package com.github.hexocraft.worldrestorer.command;
+package com.github.hexocraft.worldrestorer.listeners;
 
 /*
  * Copyright 2017 hexosse
@@ -17,24 +17,24 @@ package com.github.hexocraft.worldrestorer.command;
  */
 
 import com.github.hexocraft.worldrestorer.WorldRestorer;
-import com.github.hexocraft.worldrestorer.configuration.Permissions;
-import com.github.hexocraftapi.command.predifined.CommandHelp;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 /**
- * This file is part WorldRestorer
- *
- * @author <b>hexosse</b> (<a href="https://github.comp/hexosse">hexosse on GitHub</a>))
+ * @author <b>Hexosse</b> (<a href="https://github.com/hexosse">on GitHub</a>))
  */
-public class WrCommandHelp extends CommandHelp<WorldRestorer>
+public class PlayerListener implements Listener
 {
-    /**
-     * @param plugin The plugin that this object belong to.
-     */
-    public WrCommandHelp(WorldRestorer plugin)
-    {
-        super(plugin);
-        this.setDescription(plugin.messages.cHelp);
-        this.setPermission(Permissions.ADMIN.toString());
-        this.setDisplayInlineDescription(true);
-    }
+	public PlayerListener(WorldRestorer plugin)
+	{
+		super();
+	}
+
+	@EventHandler()
+	public void onPlayerInteract(PlayerJoinEvent event)
+	{
+		if(event.getPlayer().isOp())
+			WorldRestorer.instance.runUpdater(event.getPlayer(), 20);
+	}
 }

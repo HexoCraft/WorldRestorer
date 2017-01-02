@@ -1,7 +1,7 @@
 package com.github.hexocraft.worldrestorer.configuration;
 
 /*
- * Copyright 2016 hexosse
+ * Copyright 2017 hexosse
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -16,46 +16,48 @@ package com.github.hexocraft.worldrestorer.configuration;
  *    limitations under the License.
  */
 
-import com.github.hexocraft.worldrestorer.WorldRestorer;
-import com.github.hexosse.pluginframework.pluginapi.config.ConfigFile;
-
-import java.io.File;
+import com.github.hexocraftapi.configuration.Configuration;
+import com.github.hexocraftapi.configuration.annotation.ConfigFooter;
+import com.github.hexocraftapi.configuration.annotation.ConfigHeader;
+import com.github.hexocraftapi.configuration.annotation.ConfigPath;
+import com.github.hexocraftapi.configuration.annotation.ConfigValue;
+import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * This file is part of WorldRestorer
  *
  * @author <b>hexosse</b> (<a href="https://github.com/hexosse">hexosse on GitHub</a>).
  */
-
-@ConfigFile.ConfigHeader(comment = {
-        "############################################################",
-        "# | WorldRestorer by hexosse                            | #",
-        "############################################################"
+@ConfigHeader(comment = {
+"# ===--- WorldRestorer -------------------------------------------------------------------------------------------=== #",
+"#                                                                                                                      ",
+"#     Save, load, reset any worlds.                                                                                    ",
+"#     Change spawn, add commands and more options per world.                                                           ",
+"#     Fully integrated with Multiverse and fully configurable.                                                         ",
+"#                                                                                                                      ",
+"# ===------------------------------------------------------------------------------------------ © 2017 Hexosse ---=== #"
 })
-@ConfigFile.ConfigFooter(comment = {
-        " ",
-        " ",
-        "############################################################"
+@ConfigFooter(comment = {
+" ",
+"# ===--- Enjoy -------------------------------------------------------------------------------- © 2017 Hexosse ---=== #"
 })
 
-public class Config extends ConfigFile<WorldRestorer>
+public class Config extends Configuration
 {
     /* Plugin */
-    @ConfigComment(path = "plugin")
-    @ConfigOptions(path = "plugin.useMetrics")          public boolean useMetrics = (boolean) true;
-    @ConfigOptions(path = "plugin.useUpdater")          public boolean useUpdater = (boolean) true;
-    @ConfigOptions(path = "plugin.downloadUpdate")      public boolean downloadUpdate = (boolean) true;
+    @ConfigPath(path = "plugin")
+    @ConfigValue(path = "plugin.useMetrics")          public boolean useMetrics     = (boolean) true;
+    @ConfigValue(path = "plugin.useUpdater")          public boolean useUpdater     = (boolean) true;
+    @ConfigValue(path = "plugin.downloadUpdate")      public boolean downloadUpdate = (boolean) true;
 
     /* Message */
-    @ConfigOptions(path = "messages")                   public String messages = "messages.yml";
+    @ConfigValue(path = "messages")                   public String messages = "messages.yml";
 
 
-    public Config(WorldRestorer plugin, File dataFolder, String filename)
+    public Config(JavaPlugin plugin, String fileName, boolean load)
     {
-        super(plugin, new File(dataFolder, filename));
-    }
+        super(plugin, fileName);
 
-    public void reloadConfig() {
-        load();
+        if(load) load();
     }
 }

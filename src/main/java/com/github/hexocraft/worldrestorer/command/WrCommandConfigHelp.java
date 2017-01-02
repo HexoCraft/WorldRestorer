@@ -1,7 +1,7 @@
 package com.github.hexocraft.worldrestorer.command;
 
 /*
- * Copyright 2016 hexosse
+ * Copyright 2017 hexosse
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package com.github.hexocraft.worldrestorer.command;
 
 import com.github.hexocraft.worldrestorer.WorldRestorer;
 import com.github.hexocraft.worldrestorer.configuration.Permissions;
-import com.github.hexosse.pluginframework.pluginapi.command.predifined.CommandHelp;
+import com.github.hexocraftapi.command.predifined.CommandHelp;
 
 /**
  * This file is part WorldRestorer
@@ -35,5 +35,7 @@ public class WrCommandConfigHelp extends CommandHelp<WorldRestorer>
 		super(plugin);
 		this.setDescription(plugin.messages.cConfigHelp);
 		this.setPermission(Permissions.SAVE.toString());
+	    this.setDisplayInlineDescription(true);
+	    this.removeArgument("page");
 	}
 }

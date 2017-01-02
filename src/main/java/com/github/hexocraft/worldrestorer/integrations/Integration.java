@@ -1,7 +1,7 @@
 package com.github.hexocraft.worldrestorer.integrations;
 
 /*
- * Copyright 2016 hexosse
+ * Copyright 2017 hexosse
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -16,23 +16,23 @@ package com.github.hexocraft.worldrestorer.integrations;
  *    limitations under the License.
  */
 
-import com.github.hexosse.pluginframework.pluginapi.Plugin;
-import com.github.hexosse.pluginframework.pluginapi.PluginObject;
+import com.github.hexocraftapi.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * @author <b>hexosse</b> (<a href="https://github.comp/hexosse">hexosse on GitHub</a>))
  */
-public abstract class Integration<PluginClass extends Plugin, PluginHook extends JavaPlugin> extends PluginObject<PluginClass>
+public abstract class Integration<PluginHook extends JavaPlugin>
 {
 	// Plugin to hook
-	protected PluginHook pluginHook = null;
-	protected String pluginName = null;
+	private Plugin     plugin     = null;
+	private PluginHook pluginHook = null;
+	private String     pluginName = null;
 
-	public Integration(PluginClass plugin, String pluginName )
+	public Integration(Plugin plugin, String pluginName )
 	{
-		super(plugin);
+		this.plugin = plugin;
 		this.pluginName = pluginName;
 	}
 
@@ -40,7 +40,7 @@ public abstract class Integration<PluginClass extends Plugin, PluginHook extends
 	{
 		if(this.pluginHook != null) return this.pluginHook;
 
-		PluginManager pm = getPlugin().getServer().getPluginManager();
+		PluginManager pm = this.plugin.getServer().getPluginManager();
 		PluginHook pluginHook = (PluginHook)pm.getPlugin(this.pluginName);
 		if(pluginHook != null && pm.isPluginEnabled(pluginHook))
 			this.pluginHook = pluginHook;

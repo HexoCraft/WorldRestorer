@@ -1,7 +1,7 @@
 package com.github.hexocraft.worldrestorer.command;
 
 /*
- * Copyright 2016 hexosse
+ * Copyright 2017 hexosse
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -19,23 +19,25 @@ package com.github.hexocraft.worldrestorer.command;
 import com.github.hexocraft.worldrestorer.WorldRestorer;
 import com.github.hexocraft.worldrestorer.WorldRestorerApi;
 import com.github.hexocraft.worldrestorer.configuration.Permissions;
-import com.github.hexosse.pluginframework.pluginapi.PluginCommand;
-import com.github.hexosse.pluginframework.pluginapi.command.CommandArgument;
-import com.github.hexosse.pluginframework.pluginapi.command.CommandInfo;
-import com.github.hexosse.pluginframework.pluginapi.command.type.ArgTypeString;
-import com.github.hexosse.pluginframework.pluginapi.command.type.ArgTypeWorld;
-import com.github.hexosse.pluginframework.pluginapi.message.Message;
-import com.github.hexosse.pluginframework.pluginapi.message.MessageSeverity;
-import com.github.hexosse.pluginframework.pluginapi.message.MessageTarget;
-import org.bukkit.Bukkit;
+import com.github.hexocraftapi.command.Command;
+import com.github.hexocraftapi.command.CommandArgument;
+import com.github.hexocraftapi.command.CommandInfo;
+import com.github.hexocraftapi.command.type.ArgTypeString;
+import com.github.hexocraftapi.command.type.ArgTypeWorld;
+import com.github.hexocraftapi.message.predifined.message.EmptyMessage;
+import com.github.hexocraftapi.message.predifined.message.SimplePrefixedMessage;
+import com.github.hexocraftapi.message.predifined.message.WarningPrefixedMessage;
+import org.bukkit.ChatColor;
 import org.bukkit.World;
+
+import static com.github.hexocraft.worldrestorer.command.WrCommands.prefix;
 
 /**
  * This file is part WorldRestorer
  *
  * @author <b>hexosse</b> (<a href="https://github.comp/hexosse">hexosse on GitHub</a>))
  */
-public class WrCommandSave extends PluginCommand<WorldRestorer>
+public class WrCommandSave extends Command<WorldRestorer>
 {
     /**
      * @param plugin The plugin that this object belong to.
@@ -66,22 +68,14 @@ public class WrCommandSave extends PluginCommand<WorldRestorer>
 
 		if(!WorldRestorerApi.saveWorld(getPlugin(), worldName, saveas))
 		{
-			// Message
-			Message message = new Message(MessageSeverity.ERROR);
-			MessageTarget target = new MessageTarget(Bukkit.getConsoleSender()).add(commandInfo.getSender());
-			message.setPrefix(plugin.messages.chatPrefix);
-			message.add(new Message(plugin.messages.eSave.replace("{WORLD}",saveas)));
-			messageManager.send(target, message);
-
+			WarningPrefixedMessage.toPlayer(commandInfo.getPlayer(), prefix, plugin.messages.eSave.replace("{WORLD}",saveas));
 			return false;
 		}
 
         // Message
-        Message message = new Message();
-        MessageTarget target = new MessageTarget(Bukkit.getConsoleSender()).add(commandInfo.getSender());
-        message.setPrefix(plugin.messages.chatPrefix);
-        message.add(new Message(plugin.messages.sSave.replace("{WORLD}",saveas)));
-        messageManager.send(target, message);
+	    EmptyMessage.toSender(commandInfo.getPlayer());
+	    SimplePrefixedMessage titleMessage = new SimplePrefixedMessage(prefix, plugin.messages.sSave.replace("{WORLD}",saveas), ChatColor.GREEN);
+	    titleMessage.send(commandInfo.getSenders());
 
         return true;
     }

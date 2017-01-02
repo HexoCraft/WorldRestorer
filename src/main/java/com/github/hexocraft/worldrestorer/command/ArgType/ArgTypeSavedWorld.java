@@ -1,7 +1,7 @@
 package com.github.hexocraft.worldrestorer.command.ArgType;
 
 /*
- * Copyright 2016 hexosse
+ * Copyright 2017 hexosse
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -18,8 +18,8 @@ package com.github.hexocraft.worldrestorer.command.ArgType;
 
 import com.github.hexocraft.worldrestorer.WorldRestorer;
 import com.github.hexocraft.worldrestorer.WorldRestorerApi;
-import com.github.hexosse.pluginframework.pluginapi.command.CommandInfo;
-import com.github.hexosse.pluginframework.pluginapi.command.type.ArgType;
+import com.github.hexocraftapi.command.CommandInfo;
+import com.github.hexocraftapi.command.type.ArgType;
 import com.google.common.collect.ImmutableList;
 import org.bukkit.util.StringUtil;
 

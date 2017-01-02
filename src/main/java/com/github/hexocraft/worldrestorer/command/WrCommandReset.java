@@ -1,7 +1,7 @@
 package com.github.hexocraft.worldrestorer.command;
 
 /*
- * Copyright 2016 hexosse
+ * Copyright 2017 hexosse
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -20,10 +20,10 @@ import com.github.hexocraft.worldrestorer.WorldRestorer;
 import com.github.hexocraft.worldrestorer.WorldRestorerApi;
 import com.github.hexocraft.worldrestorer.configuration.Permissions;
 import com.github.hexocraft.worldrestorer.configuration.WorldConfig;
-import com.github.hexosse.pluginframework.pluginapi.PluginCommand;
-import com.github.hexosse.pluginframework.pluginapi.command.CommandArgument;
-import com.github.hexosse.pluginframework.pluginapi.command.CommandInfo;
-import com.github.hexosse.pluginframework.pluginapi.command.type.ArgTypeWorld;
+import com.github.hexocraftapi.command.Command;
+import com.github.hexocraftapi.command.CommandArgument;
+import com.github.hexocraftapi.command.CommandInfo;
+import com.github.hexocraftapi.command.type.ArgTypeWorld;
 import org.bukkit.World;
 
 /**
@@ -31,7 +31,7 @@ import org.bukkit.World;
  *
  * @author <b>hexosse</b> (<a href="https://github.comp/hexosse">hexosse on GitHub</a>))
  */
-public class WrCommandReset extends PluginCommand<WorldRestorer>
+public class WrCommandReset extends Command<WorldRestorer>
 {
 	private WorldConfig worldConfig = null;
 

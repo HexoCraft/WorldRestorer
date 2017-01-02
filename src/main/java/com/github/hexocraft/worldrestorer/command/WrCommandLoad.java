@@ -1,7 +1,7 @@
 package com.github.hexocraft.worldrestorer.command;
 
 /*
- * Copyright 2016 hexosse
+ * Copyright 2017 hexosse
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -21,23 +21,26 @@ import com.github.hexocraft.worldrestorer.WorldRestorerApi;
 import com.github.hexocraft.worldrestorer.command.ArgType.ArgTypeSavedWorld;
 import com.github.hexocraft.worldrestorer.configuration.Permissions;
 import com.github.hexocraft.worldrestorer.configuration.WorldConfig;
-import com.github.hexosse.pluginframework.pluginapi.PluginCommand;
-import com.github.hexosse.pluginframework.pluginapi.command.CommandArgument;
-import com.github.hexosse.pluginframework.pluginapi.command.CommandInfo;
-import com.github.hexosse.pluginframework.pluginapi.command.type.ArgTypeString;
-import com.github.hexosse.pluginframework.pluginapi.message.Message;
-import com.github.hexosse.pluginframework.pluginapi.message.MessageSeverity;
-import com.github.hexosse.pluginframework.pluginapi.message.MessageTarget;
+import com.github.hexocraftapi.command.Command;
+import com.github.hexocraftapi.command.CommandArgument;
+import com.github.hexocraftapi.command.CommandInfo;
+import com.github.hexocraftapi.command.type.ArgTypeString;
+import com.github.hexocraftapi.message.predifined.message.EmptyMessage;
+import com.github.hexocraftapi.message.predifined.message.SimplePrefixedMessage;
+import com.github.hexocraftapi.message.predifined.message.WarningPrefixedMessage;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import static com.github.hexocraft.worldrestorer.command.WrCommands.prefix;
 
 /**
  * This file is part WorldRestorer
  *
  * @author <b>hexosse</b> (<a href="https://github.comp/hexosse">hexosse on GitHub</a>))
  */
-public class WrCommandLoad extends PluginCommand<WorldRestorer>
+public class WrCommandLoad extends Command<WorldRestorer>
 {
 	private WorldConfig worldConfig = null;
 
@@ -135,21 +138,19 @@ public class WrCommandLoad extends PluginCommand<WorldRestorer>
 		}
 
 		// Actions after loading the world
-		if(worldConfig.loadRespawn)
-			WorldRestorerApi.respawnPlayersInWorld(loadAs);
-		else if(worldConfig.loadForceSpawn && worldConfig.loadSpawnLocation.getWorld()!=null)
+		if(worldConfig.loadForceSpawn && worldConfig.loadSpawnLocation.getWorld()!=null)
 			WorldRestorerApi.spawnPlayersInWorld(loadAs, worldConfig.loadSpawnLocation);
+		else if(worldConfig.loadRespawn)
+			WorldRestorerApi.respawnPlayersInWorld(loadAs);
 
 		// Commands to execute after loading the world
 		for(String command : worldConfig.loadCommands)
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
 
 		// Message
-		Message message = new Message();
-		MessageTarget target = new MessageTarget(Bukkit.getConsoleSender()).add(sender);
-		message.setPrefix(plugin.messages.chatPrefix);
-		message.add(new Message(plugin.messages.sLoad.replace("{WORLD}",loadAs)));
-		messageManager.send(target, message);
+		EmptyMessage.toSender(sender);
+		SimplePrefixedMessage titleMessage = new SimplePrefixedMessage(prefix, WorldRestorer.messages.sLoad.replace("{WORLD}",loadAs), ChatColor.GREEN);
+		titleMessage.send(sender);
 
 		return true;
 	}
@@ -157,10 +158,6 @@ public class WrCommandLoad extends PluginCommand<WorldRestorer>
 	private void sendErrorMessage(CommandSender sender, String worldName)
 	{
 		// Message
-		Message message = new Message(MessageSeverity.ERROR);
-		MessageTarget target = new MessageTarget(Bukkit.getConsoleSender()).add(sender);
-		message.setPrefix(plugin.messages.chatPrefix);
-		message.add(new Message(plugin.messages.eLoad.replace("{WORLD}",worldName)));
-		messageManager.send(target, message);
+		WarningPrefixedMessage.toSender(sender, prefix, plugin.messages.eLoad.replace("{WORLD}",worldName));
 	}
 }

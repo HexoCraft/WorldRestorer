@@ -1,7 +1,7 @@
 package com.github.hexocraft.worldrestorer.command;
 
 /*
- * Copyright 2016 hexosse
+ * Copyright 2017 hexosse
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -19,20 +19,22 @@ package com.github.hexocraft.worldrestorer.command;
 import com.github.hexocraft.worldrestorer.WorldRestorer;
 import com.github.hexocraft.worldrestorer.WorldRestorerApi;
 import com.github.hexocraft.worldrestorer.configuration.Permissions;
-import com.github.hexosse.pluginframework.pluginapi.PluginCommand;
-import com.github.hexosse.pluginframework.pluginapi.command.CommandArgument;
-import com.github.hexosse.pluginframework.pluginapi.command.CommandInfo;
-import com.github.hexosse.pluginframework.pluginapi.command.type.ArgTypeWorld;
-import com.github.hexosse.pluginframework.pluginapi.message.Message;
-import com.github.hexosse.pluginframework.pluginapi.message.MessageTarget;
+import com.github.hexocraftapi.command.Command;
+import com.github.hexocraftapi.command.CommandArgument;
+import com.github.hexocraftapi.command.CommandInfo;
+import com.github.hexocraftapi.command.type.ArgTypeWorld;
+import com.github.hexocraftapi.message.predifined.message.EmptyMessage;
+import com.github.hexocraftapi.message.predifined.message.SimplePrefixedMessage;
 import com.google.common.collect.Lists;
-import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.World;
+
+import static com.github.hexocraft.worldrestorer.command.WrCommands.prefix;
 
 /**
  * @author <b>hexosse</b> (<a href="https://github.comp/hexosse">hexosse on GitHub</a>))
  */
-public class WrCommandKickPlayers extends PluginCommand<WorldRestorer>
+public class WrCommandKickPlayers extends Command<WorldRestorer>
 {
 	public WrCommandKickPlayers(WorldRestorer plugin)
 	{
@@ -58,11 +60,9 @@ public class WrCommandKickPlayers extends PluginCommand<WorldRestorer>
 		WorldRestorerApi.kickPlayersFromWorld(worldName, plugin.messages.sKickPlayer);
 
 		// Message
-		Message message = new Message();
-		MessageTarget target = new MessageTarget(Bukkit.getConsoleSender()).add(commandInfo.getSender());
-		message.setPrefix(plugin.messages.chatPrefix);
-		message.add(new Message(plugin.messages.sKick.replace("{WORLD}",worldName)));
-		messageManager.send(target, message);
+		EmptyMessage.toSender(commandInfo.getPlayer());
+		SimplePrefixedMessage titleMessage = new SimplePrefixedMessage(prefix, WorldRestorer.messages.sKick.replace("{WORLD}",worldName), ChatColor.GREEN);
+		titleMessage.send(commandInfo.getSenders());
 
 		return true;
 	}

@@ -1,7 +1,7 @@
 package com.github.hexocraft.worldrestorer;
 
 /*
- * Copyright 2016 hexosse
+ * Copyright 2017 hexosse
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -17,13 +17,17 @@ package com.github.hexocraft.worldrestorer;
  */
 
 import com.github.hexocraft.worldrestorer.configuration.WorldConfig;
-import com.github.hexosse.pluginframework.pluginapi.logging.PluginLogger;
-import com.github.hexosse.pluginframework.pluginapi.reflexion.NMSReflexion;
-import com.github.hexosse.pluginframework.pluginapi.reflexion.Reflexion;
+import com.github.hexocraftapi.message.predifined.message.SimplePrefixedMessage;
+import com.github.hexocraftapi.message.predifined.message.WarningPrefixedMessage;
+import com.github.hexocraftapi.nms.utils.NmsWorldUtil;
 import com.google.common.collect.Lists;
 import com.onarandombox.MultiverseCore.api.SafeTTeleporter;
 import org.apache.commons.io.FileUtils;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.WorldCreator;
 import org.bukkit.entity.Player;
 import org.bukkit.event.world.WorldInitEvent;
 import org.bukkit.event.world.WorldLoadEvent;
@@ -37,13 +41,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.github.hexocraft.worldrestorer.command.WrCommands.prefix;
+
 /**
  * @author <b>hexosse</b> (<a href="https://github.comp/hexosse">hexosse on GitHub</a>))
  */
 public class WorldRestorerApi
 {
-	private static PluginLogger pluginLogger = WorldRestorer.instance.getPluginLogger();
-
 	private static final String worldSaves = "WorldSaves";
 	private static final String worldSettings = "WorldSettings.yml";
 
@@ -97,7 +101,7 @@ public class WorldRestorerApi
 	{
 		if(world == null)
 		{
-			pluginLogger.warn("Failed to save the world '" + world.getName() + "'. This world doesn't exist");
+			WarningPrefixedMessage.toConsole(WorldRestorer.instance, prefix, "Failed to save the world '" + world.getName() + "'. This world doesn't exist");
 			return false;
 		}
 
@@ -120,13 +124,13 @@ public class WorldRestorerApi
 		if(saveAsFolder.exists())
 			deleteWorldFolder(saveAsFolder);
 		if(saveAsFolder.exists()) {
-			pluginLogger.warn("Failed to delete the existing world '" + saveAs + "'");
+			WarningPrefixedMessage.toConsole(WorldRestorer.instance, prefix, "Failed to delete the existing world '" + saveAs + "'");
 			return false;
 		}
 
 		// Copy the world
 		if(!copyWorldFolder(worldFolder, saveAsFolder) || !saveAsFolder.exists()) {
-			pluginLogger.warn("Failed to copy world '" + saveAs + "'");
+			WarningPrefixedMessage.toConsole(WorldRestorer.instance, prefix, "Failed to copy world '" + saveAs + "'");
 			return false;
 		}
 
@@ -166,23 +170,23 @@ public class WorldRestorerApi
 
 		// Check
 		if(!worldFolder.exists()) {
-			pluginLogger.warn("Failed to delete the saved world '" + worldName + "'. This world doesn't exist");
+			WarningPrefixedMessage.toConsole(WorldRestorer.instance, prefix, "Failed to delete the saved world '" + worldName + "'. This world doesn't exist");
 			return false;
 		}
 
 		// Delete the folder
 		if(worldFolder.exists() && !deleteWorldFolder(worldFolder)) {
-			pluginLogger.warn("Failed to delete the folder '" + worldFolder.toString() + "'.");
+			WarningPrefixedMessage.toConsole(WorldRestorer.instance, prefix, "Failed to delete the folder '" + worldFolder.toString() + "'.");
 			return false;
 		}
 
 		// Check
 		if(worldFolder.exists()) {
-			pluginLogger.warn("Failed to delete the saved world '" + worldName + "'.");
+			WarningPrefixedMessage.toConsole(WorldRestorer.instance, prefix, "Failed to delete the saved world '" + worldName + "'.");
 			return false;
 		}
 
-		pluginLogger.info("The saved world " + worldName + " was deleted.");
+		SimplePrefixedMessage.toConsole(WorldRestorer.instance, prefix, "The saved world " + worldName + " was deleted.");
 
 		return true;
 	}
@@ -191,14 +195,14 @@ public class WorldRestorerApi
 	{
 		// The main world 'world' can't be resetted
 		if(loadAs.equals("world")) {
-			pluginLogger.warn("Failed to delete the world 'world'. The main world 'world' can't be resetted");
+			WarningPrefixedMessage.toConsole(WorldRestorer.instance, prefix, "Failed to delete the world 'world'. The main world 'world' can't be resetted");
 			return false;
 		}
 
 		// Check that the saved folder exist
 		final File savedWorldFolder = new File(plugin.getDataFolder() + "/" + worldSaves + "/" + savedWorld);
 		if(savedWorldFolder.exists()==false) {
-			pluginLogger.warn("Failed to load the world '" + savedWorld + "'. This world 'world' doesn't exist");
+			WarningPrefixedMessage.toConsole(WorldRestorer.instance, prefix, "Failed to load the world '" + savedWorld + "'. This world 'world' doesn't exist");
 			return false;
 		}
 
@@ -208,7 +212,7 @@ public class WorldRestorerApi
 		// Get the config file for that world
 		final WorldConfig worldConfig = getWorldConfig(plugin, savedWorld);
 		if(worldConfig==null) {
-			pluginLogger.warn("Failed to load the config file for the world '" + savedWorld + "'.");
+			WarningPrefixedMessage.toConsole(WorldRestorer.instance, prefix, "Failed to load the config file for the world '" + savedWorld + "'.");
 			return false;
 		}
 
@@ -220,66 +224,66 @@ public class WorldRestorerApi
 		{
 			// First with Bukkit, be sure to save the world to unload all chunks
 			if(WorldRestorer.instance.getServer().unloadWorld(loadAs, true) == false) {
-				pluginLogger.warn("Bukkit refused to unload the world '" + loadAs + "'");
+				WarningPrefixedMessage.toConsole(WorldRestorer.instance, prefix, "Bukkit refused to unload the world '" + loadAs + "'");
 				return false;
 			}
 
 			// Next with multiverse if it is present
 			if(WorldRestorer.multiverse.enabled() && WorldRestorer.multiverse.getCore().getMVWorldManager().unloadWorld(loadAs, true) == false) {
-				pluginLogger.warn("Failed to unload the world '" + loadAs + "' using Multiverse.");
+				WarningPrefixedMessage.toConsole(WorldRestorer.instance, prefix, "Failed to unload the world '" + loadAs + "' using Multiverse.");
 				return false;
 			}
 
-			pluginLogger.info("The world '" + loadAs + "' was unloaded.");
+			SimplePrefixedMessage.toConsole(WorldRestorer.instance, prefix, "The world '" + loadAs + "' was unloaded.");
 		}
 
 		// Delete the folder containing the world
 		if(loadAsFolder.exists() && !deleteWorldFolder(loadAsFolder)) {
-			pluginLogger.warn("Failed to delete the folder '" + loadAsFolder.toString() + "'.");
+			WarningPrefixedMessage.toConsole(WorldRestorer.instance, prefix, "Failed to delete the folder '" + loadAsFolder.toString() + "'.");
 			return false;
 		}
 		// Check that all files are deleted
 		if(loadAsFolder.exists()) {
-			pluginLogger.warn("Failed to delete the world '" + loadAs + "'");
+			WarningPrefixedMessage.toConsole(WorldRestorer.instance, prefix, "Failed to delete the world '" + loadAs + "'");
 			return false;
 		}
 		else
-			pluginLogger.info("The world '" + loadAs + "' was deleted.");
+			SimplePrefixedMessage.toConsole(WorldRestorer.instance, prefix, "The world '" + loadAs + "' was deleted.");
 
 		// Copy the saved world
 		copyWorldFolder(savedWorldFolder, loadAsFolder);
 		// Check that files are copied
 		if(!loadAsFolder.exists()) {
-			pluginLogger.warn("Failed to copy the world '" + savedWorld + "' to '" + loadAs + "'.");
+			WarningPrefixedMessage.toConsole(WorldRestorer.instance, prefix, "Failed to copy the world '" + savedWorld + "' to '" + loadAs + "'.");
 			return false;
 		}
 		else
-			pluginLogger.info("The world '" + savedWorld + "' has been copied to '" + loadAs + "'.");
+			SimplePrefixedMessage.toConsole(WorldRestorer.instance, prefix, "The world '" + savedWorld + "' has been copied to '" + loadAs + "'.");
 
 		//load the world
 		WorldCreator worldCreator = worldConfig.getWorldCreator(loadAs);
 		if(WorldRestorer.multiverse.enabled())
 		{
 			if(WorldRestorer.multiverse.getCore().getMVWorldManager().addWorld(loadAs, worldCreator.environment(), Long.toString(worldCreator.seed()), worldCreator.type(), worldCreator.generateStructures(), worldCreator.generatorSettings()) == false) {
-				pluginLogger.warn("Failed to add the world '" + loadAs + "' using Multiverse.");
+				WarningPrefixedMessage.toConsole(WorldRestorer.instance, prefix, "Failed to add the world '" + loadAs + "' using Multiverse.");
 				return false;
 			}
 			if(WorldRestorer.multiverse.getCore().getMVWorldManager().loadWorld(loadAs) == false) {
-				pluginLogger.warn("Failed to load the world '" + loadAs + "' using Multiverse.");
+				WarningPrefixedMessage.toConsole(WorldRestorer.instance, prefix, "Failed to load the world '" + loadAs + "' using Multiverse.");
 				return false;
 			}
 
-			pluginLogger.info("The world '" + loadAs + "' has bee loaded using Multiverse.");
+			SimplePrefixedMessage.toConsole(WorldRestorer.instance, prefix, "The world '" + loadAs + "' has bee loaded using Multiverse.");
 		}
 		else
 		{
 			WorldRestorer.instance.getServer().createWorld(worldCreator);
 			if( WorldRestorer.instance.getServer().getWorld(loadAs) == null) {
-				pluginLogger.warn("Failed to add the world '" + loadAs + "' using Bukkit.");
+				WarningPrefixedMessage.toConsole(WorldRestorer.instance, prefix, "Failed to add the world '" + loadAs + "' using Bukkit.");
 				return false;
 			}
 
-			pluginLogger.info("The world '" + loadAs + "' has bee loaded using Bukkit.");
+			SimplePrefixedMessage.toConsole(WorldRestorer.instance, prefix, "The world '" + loadAs + "' has bee loaded using Bukkit.");
 		}
 
 		// Events
@@ -308,23 +312,7 @@ public class WorldRestorerApi
 		// Try to save all chunks
 		final Chunk[] chunks = world.getLoadedChunks();
 		for (final Chunk chunk : chunks)
-		{
-			try
-			{
-				Class<?> class_CraftWorld = NMSReflexion.getBukkitClass("CraftWorld");
-				Class<?> class_CraftChunk = NMSReflexion.getBukkitClass("CraftChunk");
-
-				Object worldServer = Reflexion.getMethod(class_CraftWorld, "getHandle").invoke(world);
-				Object craftChunk = Reflexion.getMethod(class_CraftChunk, "getHandle").invoke(chunk);
-				Object chunkProviderServer = Reflexion.getMethod(worldServer.getClass(),"getChunkProviderServer").invoke(worldServer);
-
-				Reflexion.getMethod(chunkProviderServer.getClass(),"saveChunk", craftChunk.getClass()).invoke(chunkProviderServer, craftChunk);
-			}
-			catch(Exception e)
-			{
-				e.printStackTrace();
-			}
-		}
+			NmsWorldUtil.saveChunk(world, chunk);
 
 		// Time reference
 		long reference = new Date().getTime();
@@ -371,26 +359,26 @@ public class WorldRestorerApi
 		}
 		catch(IOException e)
 		{
-			pluginLogger.warn("Failed to copy folder " + sourceFolder.getName() + " to " + destinationFolder.getName());
+			WarningPrefixedMessage.toConsole(WorldRestorer.instance, prefix, "Failed to copy folder " + sourceFolder.getName() + " to " + destinationFolder.getName());
 			return false;
 		}
 
 		// Remove the uid.dat file if exist
 		File uidFile = new File(destinationFolder, "uid.dat");
 		if (uidFile.exists() && !FileUtils.deleteQuietly(uidFile)) {
-			pluginLogger.warn("Failed to delete uid.dat file from world " + destinationFolder.getName());
+			WarningPrefixedMessage.toConsole(WorldRestorer.instance, prefix, "Failed to delete uid.dat file from world " + destinationFolder.getName());
 			return false;
 		}
 		// Remove the session.lock file if exist
 		File sessionFile = new File(destinationFolder, "session.lock");
 		if (sessionFile.exists() && !FileUtils.deleteQuietly(sessionFile)) {
-			pluginLogger.warn("Failed to delete session.lock file from world " + destinationFolder.getName());
+			WarningPrefixedMessage.toConsole(WorldRestorer.instance, prefix, "Failed to delete session.lock file from world " + destinationFolder.getName());
 			return false;
 		}
 		// Remove the worldSettings file if exist
 		File worldSettingsFile = new File(destinationFolder, worldSettings);
 		if (worldSettingsFile.exists() && !FileUtils.deleteQuietly(worldSettingsFile)) {
-			pluginLogger.warn("Failed to delete " + worldSettings + " file from world " + destinationFolder.getName() + ".");
+			WarningPrefixedMessage.toConsole(WorldRestorer.instance, prefix, "Failed to delete " + worldSettings + " file from world " + destinationFolder.getName() + ".");
 			return false;
 		}
 
@@ -437,7 +425,7 @@ public class WorldRestorerApi
 			return null;
 
 		//
-		final WorldConfig worldConfig = new WorldConfig(WorldRestorer.instance, savedWorldFolder, worldSettings);
+		final WorldConfig worldConfig = new WorldConfig(WorldRestorer.instance, savedWorldFolder, worldSettings, true);
 		if(worldConfig.load()==false)
 			return null;
 
@@ -526,6 +514,9 @@ public class WorldRestorerApi
 		if(world == null) return;
 		if(worldPlayers == null) return;
 		if(worldPlayers.size() == 0) return;
+
+		Location teleportLocation = location.clone();
+		teleportLocation.setWorld(world);
 
 		// Teleport players
 		for(Player p : worldPlayers)  {

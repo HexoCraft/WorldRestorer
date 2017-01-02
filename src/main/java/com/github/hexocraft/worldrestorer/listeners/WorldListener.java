@@ -1,7 +1,7 @@
 package com.github.hexocraft.worldrestorer.listeners;
 
 /*
- * Copyright 2016 hexosse
+ * Copyright 2017 hexosse
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -17,10 +17,10 @@ package com.github.hexocraft.worldrestorer.listeners;
  */
 
 import com.github.hexocraft.worldrestorer.WorldRestorer;
-import com.github.hexosse.pluginframework.pluginapi.PluginListener;
 import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.world.WorldInitEvent;
 import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.event.world.WorldSaveEvent;
@@ -31,14 +31,14 @@ import org.bukkit.event.world.WorldUnloadEvent;
  *
  * @author <b>hexosse</b> (<a href="https://github.com/hexosse">hexosse on GitHub</a>).
  */
-public class WorldListener extends PluginListener<WorldRestorer>
+public class WorldListener implements Listener
 {
     /**
      * @param plugin The plugin that this object belong to.
      */
     public WorldListener(WorldRestorer plugin)
     {
-        super(plugin);
+        super();
     }
 
     /**

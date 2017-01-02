@@ -1,7 +1,7 @@
 package com.github.hexocraft.worldrestorer;
 
 /*
- * Copyright 2016 hexosse
+ * Copyright 2017 hexosse
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -19,15 +19,16 @@ package com.github.hexocraft.worldrestorer;
 import com.github.hexocraft.worldrestorer.command.WrCommands;
 import com.github.hexocraft.worldrestorer.configuration.Config;
 import com.github.hexocraft.worldrestorer.configuration.Messages;
-import com.github.hexosse.githubupdater.GitHubUpdater;
 import com.github.hexocraft.worldrestorer.integrations.Multiverse;
-import com.github.hexosse.pluginframework.pluginapi.Plugin;
-import com.github.hexosse.pluginframework.pluginapi.message.Message;
-import com.github.hexosse.pluginframework.pluginapi.metric.MetricsLite;
-import net.md_5.bungee.api.ChatColor;
+import com.github.hexocraft.worldrestorer.listeners.WorldListener;
+import com.github.hexocraftapi.message.Line;
+import com.github.hexocraftapi.message.predifined.message.PluginMessage;
+import com.github.hexocraftapi.message.predifined.message.PluginTitleMessage;
+import com.github.hexocraftapi.plugin.Plugin;
+import com.github.hexocraftapi.updater.BukkitUpdater;
 import org.bukkit.Bukkit;
-
-import java.io.IOException;
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 
 /**
  * This file is part WorldRestorer
@@ -37,13 +38,11 @@ import java.io.IOException;
 public class WorldRestorer extends Plugin
 {
 	public static WorldRestorer instance = null;
-	public static Multiverse multiverse = null;
-
 	public static Config config = null;
 	public static Messages messages = null;
 
-	private String repository = "hexosse/WorldRestorer";
-
+	/* Plugins */
+	public static Multiverse multiverse = null;
 
     // Activation du plugin
     @Override
@@ -53,32 +52,30 @@ public class WorldRestorer extends Plugin
 		instance = this;
 
         /* Chargement de la config */
-        config = new Config(this, getDataFolder(), "config.yml");           config.load();
-        messages = new Messages(this, getDataFolder(), config.messages);     messages.load();
-
-        /* Enregistrement des listeners */
-        //Bukkit.getPluginManager().registerEvents(new WorldListener(this), this);
+	    config = new Config(this, "config.yml", true);
+	    messages = new Messages(this, config.messages, true);
 
         /* Enregistrement du gestionnaire de commandes */
-        registerCommands(new WrCommands(this));
+	    registerCommands(new WrCommands(this));
 
-        /* Updater */
-        if(config.useUpdater)
-            RunUpdater(config.downloadUpdate);
-
-        /* Metrics */
-        if(config.useMetrics)
-            RunMetrics();
+        /* Enregistrement des listeners */
+        Bukkit.getPluginManager().registerEvents(new WorldListener(this), this);
 
 		/* Multiverse */
-		multiverse = new Multiverse(this);
+	    multiverse = new Multiverse(this);
 
-		/* Console message */
-		Message message = new Message();
-        message.setPrefix("§3[§b" + WorldRestorer.instance.getDescription().getName() + " " + WorldRestorer.instance.getDescription().getVersion() + "§3]§r");
-        message.add(new Message(ChatColor.YELLOW, "Enable"));
-		if(multiverse.enabled()) message.add("Integration with " + ChatColor.YELLOW + multiverse.getName());
-		messageManager.send(Bukkit.getConsoleSender(), message);
+		/* Enable message */
+	    PluginTitleMessage titleMessage = new PluginTitleMessage(this, "WorldRestorer is enable ...", ChatColor.YELLOW);
+	    if(multiverse.enabled()) titleMessage.add("Integration with " + ChatColor.YELLOW + multiverse.getName());
+	    titleMessage.send(Bukkit.getConsoleSender());
+
+        /* Updater */
+	    if(config.useUpdater)
+		    runUpdater(getServer().getConsoleSender(), 20 * 10);
+
+        /* Metrics */
+	    if(config.useMetrics)
+		    runMetrics(20 * 2);
     }
 
     // Désactivation du plugin
@@ -87,32 +84,16 @@ public class WorldRestorer extends Plugin
     {
         super.onDisable();
 
-		/* Console message */
-		Message message = new Message();
-		message.setPrefix("§3[§b" + WorldRestorer.instance.getDescription().getName() + " " + WorldRestorer.instance.getDescription().getVersion() + "§3]§r");
-		message.add(new Message(ChatColor.YELLOW, "Disabled"));
-		messageManager.send(Bukkit.getConsoleSender(), message);
+	    PluginMessage.toConsole(this, "Disabled", ChatColor.RED, new Line("WorldRestorer is now disabled", ChatColor.DARK_RED));
     }
 
- 	public void RunUpdater(final boolean download)
-    {
-        GitHubUpdater updater = new GitHubUpdater(this, this.repository, this.getFile(), download?GitHubUpdater.UpdateType.DEFAULT:GitHubUpdater.UpdateType.NO_DOWNLOAD, true);
-    }
+	public void runUpdater(final CommandSender sender, int delay)
+	{
+		super.runUpdater(new BukkitUpdater(this, "256382"), sender, delay);
+	}
 
-    /**
-     * Run metrics
-     */
-    private void RunMetrics()
-    {
-        try
-        {
-            MetricsLite metrics = new MetricsLite(this);
-            if(metrics.start())
-                pluginLogger.info("Succesfully started Metrics, see http://mcstats.org for more information.");
-            else
-                pluginLogger.info("Could not start Metrics, see http://mcstats.org for more information.");
-        } catch (IOException e){
-            // Failed to submit the stats :-(
-        }
-    }
+	private void runMetrics(int delay)
+	{
+		super.RunMetrics(delay);
+	}
 }
