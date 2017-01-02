@@ -23,7 +23,7 @@
     <groupId>com.github.hexosse</groupId>
     <artifactId>WorldRestorer</artifactId>
     <name>WorldRestorer</name>
-    <version>2.3.7</version>
+    <version>2.3.8</version>
     <packaging>jar</packaging>
     <description>Save, load, reset any worlds. Change spawn, add commands and more options per world.Fully integrated with Multiverse and fully configurable.</description>
     <url>https://github.com/HexoCube/WorldRestorer</url>
@@ -57,7 +57,7 @@
         <plugin.name>${project.name}</plugin.name>
         <plugin.version>${project.version}</plugin.version>
         <jdk.version>1.7</jdk.version>
-        <spigot.version>1.9.4-R0.1-SNAPSHOT</spigot.version>
+        <spigot.version>1.10.2-R0.1-SNAPSHOT</spigot.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <github.global.server>github</github.global.server>
     </properties>
@@ -127,7 +127,7 @@
         <dependency>
             <groupId>com.github.hexosse</groupId>
             <artifactId>pluginframework</artifactId>
-            <version>0.5.0</version>
+            <version>0.5.1</version>
             <scope>compile</scope>
         </dependency>
         <!-- hexosse GitHubUpdater -->

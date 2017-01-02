@@ -2,6 +2,7 @@
 ## Maven : https://github.com/github/gitignore/blob/master/Maven.gitignore
 
 # User-specific stuff:
+.idea/artifacts
 .idea/dictionaries
 .idea/libraries
 .idea/workspace.xml

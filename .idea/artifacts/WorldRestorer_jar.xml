@@ -1,11 +1,11 @@
 <component name="ArtifactManager">
   <artifact type="jar" build-on-make="true" name="WorldRestorer:jar">
-    <output-path>$PROJECT_DIR$/../../ServerTest/plugins</output-path>
+    <output-path>$PROJECT_DIR$/../../Serveurs/Tests/plugins</output-path>
     <root id="archive" name="WorldRestorer.jar">
       <element id="module-output" name="WorldRestorer" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/github/hexosse/GitHubUpdater/1.0.5/GitHubUpdater-1.0.5.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/github/hexosse/pluginframework/0.5.0/pluginframework-0.5.0.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/commons-io/commons-io/2.4/commons-io-2.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/github/hexosse/pluginframework/0.5.1/pluginframework-0.5.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/commons-io/commons-io/2.5/commons-io-2.5.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
