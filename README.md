@@ -1,4 +1,4 @@
-# WorldRestorer [![Build Status](https://drone.io/github.com/hexosse/WorldRestorer/status.png)](https://drone.io/github.com/hexosse/WorldRestorer/latest) [![Dependency Status](https://www.versioneye.com/user/projects/571e8a6bfcd19a00415b27d7/badge.svg?style=flat)](https://www.versioneye.com/user/projects/571e8a6bfcd19a00415b27d7)
+# WorldRestorer 
 Save, load, reset any worlds. Change spawn, add commands and more options per world.
 Fully integrated with Multiverse and fully configurable.
 
@@ -79,6 +79,5 @@ The plugin use metrics and an integrated updater.<br>
 Both can be disable in config.yml
 
 ####Ressources:
-Releases : https://github.com/hexosse/WorldRestorer/releases<br>
-Latest build :  https://drone.io/github.com/hexosse/WorldRestorer/files
+Releases : https://github.com/hexosse/WorldRestorer/releases
 
