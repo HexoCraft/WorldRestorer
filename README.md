@@ -66,8 +66,6 @@ If you are like me and you don't like to type long commands, Worldrestorer inclu
   * WorldRestorer.removeplayers
   * WorldRestorer.respawnplayers
   * WorldRestorer.config
-* WorldRestorer.* : given to op
-  * WorldRestorer.admin
 
 ####Messages:
 All the messages sent by WorldRestorer are configurable in the message.yml file.
