@@ -142,6 +142,20 @@
             <artifactId>plugin</artifactId>
             <version>[1.0.0, )</version>
             <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.github.hexocraftapi</groupId>
+                    <artifactId>sounds</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.github.hexocraftapi</groupId>
+                    <artifactId>lights</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.github.hexocraftapi</groupId>
+                    <artifactId>weighted-selector</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- Multiverse-Core -->
         <dependency>
