@@ -20,6 +20,7 @@ import com.github.hexocraft.worldrestorer.command.WrCommands;
 import com.github.hexocraft.worldrestorer.configuration.Config;
 import com.github.hexocraft.worldrestorer.configuration.Messages;
 import com.github.hexocraft.worldrestorer.integrations.Multiverse;
+import com.github.hexocraft.worldrestorer.listeners.UpdaterListener;
 import com.github.hexocraft.worldrestorer.listeners.WorldListener;
 import com.github.hexocraftapi.integration.Hook;
 import com.github.hexocraftapi.message.Line;
@@ -60,7 +61,8 @@ public class WorldRestorer extends Plugin
 	    registerCommands(new WrCommands(this));
 
         /* Enregistrement des listeners */
-        Bukkit.getPluginManager().registerEvents(new WorldListener(this), this);
+		Bukkit.getPluginManager().registerEvents(new WorldListener(this), this);
+		Bukkit.getPluginManager().registerEvents(new UpdaterListener(this), this);
 
 		/* Multiverse */
 		multiverse = (Multiverse) new Hook(Multiverse.class, "Multiverse-Core", "com.onarandombox.MultiverseCore.MultiverseCore").get();

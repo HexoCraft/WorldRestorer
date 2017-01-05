@@ -24,15 +24,15 @@ import org.bukkit.event.player.PlayerJoinEvent;
 /**
  * @author <b>Hexosse</b> (<a href="https://github.com/hexosse">on GitHub</a>))
  */
-public class PlayerListener implements Listener
+public class UpdaterListener implements Listener
 {
-	public PlayerListener(WorldRestorer plugin)
+	public UpdaterListener(WorldRestorer plugin)
 	{
 		super();
 	}
 
 	@EventHandler()
-	public void onPlayerInteract(PlayerJoinEvent event)
+	public void onPlayerJoin(PlayerJoinEvent event)
 	{
 		if(event.getPlayer().isOp())
 			WorldRestorer.instance.runUpdater(event.getPlayer(), 20);
