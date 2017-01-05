@@ -17,16 +17,25 @@ package com.github.hexocraft.worldrestorer.integrations;
  */
 
 import com.github.hexocraft.worldrestorer.WorldRestorer;
+import com.github.hexocraftapi.integration.Hooker;
 import com.onarandombox.MultiverseCore.MultiverseCore;
 
 /**
  * @author <b>hexosse</b> (<a href="https://github.comp/hexosse">hexosse on GitHub</a>))
  */
-public class Multiverse extends Integration<MultiverseCore>
+public class Multiverse extends Hooker<MultiverseCore, Multiverse>
 {
-	public Multiverse(WorldRestorer plugin)
+	public Multiverse()
 	{
-		super(plugin, "Multiverse-Core");
+		super();
+	}
+
+
+	@Override
+	public Multiverse capture(MultiverseCore multiverseCore)
+	{
+		this.plugin = multiverseCore;
+		return this;
 	}
 
 	public MultiverseCore getCore()

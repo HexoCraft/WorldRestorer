@@ -229,7 +229,7 @@ public class WorldRestorerApi
 			}
 
 			// Next with multiverse if it is present
-			if(WorldRestorer.multiverse.enabled() && WorldRestorer.multiverse.getCore().getMVWorldManager().unloadWorld(loadAs, true) == false) {
+			if(WorldRestorer.multiverse != null && WorldRestorer.multiverse.getCore().getMVWorldManager().unloadWorld(loadAs, true) == false) {
 				WarningPrefixedMessage.toConsole(WorldRestorer.instance, prefix, "Failed to unload the world '" + loadAs + "' using Multiverse.");
 				return false;
 			}
@@ -262,7 +262,7 @@ public class WorldRestorerApi
 
 		//load the world
 		WorldCreator worldCreator = worldConfig.getWorldCreator(loadAs);
-		if(WorldRestorer.multiverse.enabled())
+		if(WorldRestorer.multiverse != null)
 		{
 			if(WorldRestorer.multiverse.getCore().getMVWorldManager().addWorld(loadAs, worldCreator.environment(), Long.toString(worldCreator.seed()), worldCreator.type(), worldCreator.generateStructures(), worldCreator.generatorSettings()) == false) {
 				WarningPrefixedMessage.toConsole(WorldRestorer.instance, prefix, "Failed to add the world '" + loadAs + "' using Multiverse.");
@@ -457,7 +457,7 @@ public class WorldRestorerApi
 		worldPlayers = world.getPlayers();
 
 		// Remove the players
-		if(WorldRestorer.multiverse.enabled())
+		if(WorldRestorer.multiverse != null)
 		{
 			WorldRestorer.multiverse.getCore().getMVWorldManager().removePlayersFromWorld(world.getName());
 		}
@@ -483,7 +483,7 @@ public class WorldRestorerApi
 		if(worldPlayers.size() == 0) return;
 
 		// Respawn the players
-		if(WorldRestorer.multiverse.enabled())
+		if(WorldRestorer.multiverse != null)
 		{
 			SafeTTeleporter teleporter = WorldRestorer.multiverse.getCore().getSafeTTeleporter();
 			for (Player p : worldPlayers) {

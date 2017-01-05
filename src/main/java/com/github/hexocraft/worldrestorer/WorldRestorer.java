@@ -21,6 +21,7 @@ import com.github.hexocraft.worldrestorer.configuration.Config;
 import com.github.hexocraft.worldrestorer.configuration.Messages;
 import com.github.hexocraft.worldrestorer.integrations.Multiverse;
 import com.github.hexocraft.worldrestorer.listeners.WorldListener;
+import com.github.hexocraftapi.integration.Hook;
 import com.github.hexocraftapi.message.Line;
 import com.github.hexocraftapi.message.predifined.message.PluginMessage;
 import com.github.hexocraftapi.message.predifined.message.PluginTitleMessage;
@@ -62,11 +63,11 @@ public class WorldRestorer extends Plugin
         Bukkit.getPluginManager().registerEvents(new WorldListener(this), this);
 
 		/* Multiverse */
-	    multiverse = new Multiverse(this);
+		multiverse = (Multiverse) new Hook(Multiverse.class, "Multiverse-Core", "com.onarandombox.MultiverseCore.MultiverseCore").get();
 
 		/* Enable message */
 	    PluginTitleMessage titleMessage = new PluginTitleMessage(this, "WorldRestorer is enable ...", ChatColor.YELLOW);
-	    if(multiverse.enabled()) titleMessage.add("Integration with " + ChatColor.YELLOW + multiverse.getName());
+	    if(multiverse != null) titleMessage.add("Integration with " + ChatColor.YELLOW + multiverse.get().getName());
 	    titleMessage.send(Bukkit.getConsoleSender());
 
         /* Updater */
