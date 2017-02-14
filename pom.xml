@@ -23,7 +23,7 @@
     <groupId>com.github.hexocraft</groupId>
     <artifactId>worldrestorer</artifactId>
     <name>WorldRestorer</name>
-    <version>2.4.2</version>
+    <version>2.4.3</version>
     <packaging>jar</packaging>
     <description>Save, load, reset any worlds. Change spawn, add commands and more options per world.Fully integrated with Multiverse and fully configurable.</description>
     <url>https://github.com/hexocraft/WorldRestorer</url>
