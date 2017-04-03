@@ -73,12 +73,10 @@ public class WorldRestorer extends Plugin
 	    titleMessage.send(Bukkit.getConsoleSender());
 
         /* Updater */
-	    if(config.useUpdater)
-		    runUpdater(getServer().getConsoleSender(), 20 * 10);
+	    runUpdater(getServer().getConsoleSender(), 20 * 10);
 
         /* Metrics */
-	    if(config.useMetrics)
-		    runMetrics(20 * 2);
+	    runMetrics(20 * 2);
     }
 
     // Désactivation du plugin
@@ -92,11 +90,13 @@ public class WorldRestorer extends Plugin
 
 	public void runUpdater(final CommandSender sender, int delay)
 	{
-		super.runUpdater(new BukkitUpdater(this, "256382"), sender, delay);
+		if(config.useUpdater)
+			super.runUpdater(new BukkitUpdater(this, "256382"), sender, config.downloadUpdate, delay);
 	}
 
 	private void runMetrics(int delay)
 	{
-		super.RunMetrics(delay);
+		if(config.useMetrics)
+			super.RunMetrics(delay);
 	}
 }
