@@ -16,7 +16,7 @@ And also after loading the world :
 - Force a spawn loaction in loaded world which can be different of the world spawn.
 - Add a list of server commands to execute before unloading the world.
 
-####Commands:
+#### Commands:
 * /WorldRestorer help : Display WorldRestorer help
 * /WorldRestorer save \<world> [save as] : Save a world (Save you wolrds with the /save-all command to unsure that your last modifications will be saved)
 * /WorldRestorer load \<saved world> [load as] : Load a world
@@ -48,7 +48,7 @@ And also after loading the world :
 
 If you are like me and you don't like to type long commands, Worldrestorer include a full help support with full tab completion and also a clickable help.
 
-####Permissions:
+#### Permissions:
 * WorldRestorer.save : Save a world
 * WorldRestorer.load : Load a world
 * WorldRestorer.delete : delete a saved world
@@ -67,15 +67,15 @@ If you are like me and you don't like to type long commands, Worldrestorer inclu
   * WorldRestorer.respawnplayers
   * WorldRestorer.config
 
-####Messages:
+#### Messages:
 All the messages sent by WorldRestorer are configurable in the message.yml file.
 You can also create your own message file and change it in the config file.
 Feel free to send me any translation and I'll add it into WorldRestorer.
 
-####Config:
+#### Config:
 The plugin use metrics and an integrated updater.<br>
 Both can be disable in config.yml
 
-####Ressources:
+#### Ressources:
 Releases : https://github.com/hexosse/WorldRestorer/releases
 
