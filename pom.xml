@@ -57,7 +57,7 @@
         <plugin.name>${project.name}</plugin.name>
         <plugin.version>${project.version}</plugin.version>
         <jdk.version>1.7</jdk.version>
-        <bukkit.version>1.11.2-R0.1-SNAPSHOT</bukkit.version>
+        <bukkit.version>1.12-R0.1-SNAPSHOT</bukkit.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <github.global.server>github</github.global.server>
     </properties>
